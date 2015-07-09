@@ -1,0 +1,112 @@
+\documentclass[letterpaper,oneside,12pt,spanish]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{tocbibind} % Bibliografía en el indice
+\usepackage{titlesec} % Posibilidad de editar los formatos de chapter
+\usepackage{amsmath,amssymb,mathrsfs} % Matemáticas varias
+\usepackage{hyperref} %Esto te hace un pequeño esquemita al lado
+\usepackage{listings}
+\usepackage{anysize} 
+\usepackage{algorithmic} % Para pseudocódigo de algoritmos
+\usepackage{algorithm}
+\usepackage{appendix} % Para tener apéndice en vez de capítulos
+\usepackage{verbatim}
+
+
+
+% --- Arreglos varios para la inclusion de imagenes
+\usepackage[pdftex]{graphicx}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage[usenames,dvipsnames]{color}
+\DeclareGraphicsExtensions{.png,.jpg,.pdf,.mps,.gif,.bmp}
+
+% --- Para las dimensiones de los márgenes etc
+% \frenchspacing \addtolength{\hoffset}{-1.5cm}
+% \addtolength{\textwidth}{3cm} \addtolength{\voffset}{-2.5cm}
+% \addtolength{\textheight}{4cm}
+\marginsize{3.8cm}{2.5cm}{2cm}{2cm} 
+
+\setlength{\parskip}{0.7em}
+
+% --- Para el encabezado
+\usepackage{fancyhdr}
+\fancyhead[R]{UTFSM}\fancyhead[L]{} \fancyfoot[C]{\thepage}
+\pagestyle{fancy}
+
+% --- Para las tablas
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\listtablename}{Índice de tablas}
+
+% --- Para los apendices
+\renewcommand{\appendixname}{Anexos}
+%\renewcommand{\appendixtocname}{Anexos}
+%\renewcommand{\appendixpagename}{Anexos}
+% -------------------------------------------------------- %
+
+\title{Estado del Arte: Web browsers bajo ataques y sus mecanismos de Seguridad.}
+\author{Paulina Andrea Silva Ghio}
+
+\lstset{ %
+language=C,                % choose the language of the code
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=0,                   % the step between two line-numbers. If it's 1 each line 
+                                % will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,	                % adds a frame around the code
+tabsize=2,	                % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                                % also try caption instead of title
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+morekeywords={*,...}            % if you want to add more keywords to the set
+}
+
+\begin{document}
+\frontmatter
+\input{chapters/title.tex} 
+\input{chapters/dedicado.tex}
+\newpage 
+\input{chapters/agradecimientos.tex} 
+\newpage 
+\input{chapters/abstract.tex} 
+\markboth{}{}
+\newpage
+\tableofcontents 
+\newpage
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
+\mainmatter
+\input{chapters/introduction.tex}
+\newpage
+\input{chapters/chap2.tex}
+\newpage
+\input{chapters/chap3.tex}
+\newpage
+\input{chapters/chap4.tex}
+\newpage
+\input{chapters/chap5.tex}
+\newpage
+\input{chapters/chap6.tex}
+\newpage
+\input{chapters/conclusion.tex}
+
+%\backmatter
+%\addcontentsline{toc}{chapter}{References}
+\bibliography{ref}
+\bibliographystyle{unsrt}
+
+\appendix
+\input{chapters/anexos.tex}
+%\input{chapters/anexo2.tex}
+\end{document}

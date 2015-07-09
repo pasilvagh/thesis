@@ -1,0 +1,286 @@
+\chapter{ConceptualFramework}
+\label{chap2:FC}
+
+
+\section{Basic Definitions}
+\label{chap2:Def}
+
+Para empezar este estudio es necesario introducir ciertas nociones y lenguaje que se usarán durante todo el documento. Estos conceptos son usados en la Seguridad y Desarrollo de Software, y son extendibles para lo que se verá en este estudio.
+
+\begin{itemize}
+    \item Seguridad - \textit{Security}:
+        \\Es una Propiedad que podría tener un sistema, donde asegura la protección de los recursos e información, en contra de ataques maliciosos desde fuentes externas como internas. La Seguridad también involucra controlar que el funcionamiento de un sistema sea como debería ser, y que nada externo o interno genere un error.
+    \item Error - \textit{Error}:
+        \\Es una acción de caracter humano. Éste se genera cuando se tienen ciertas nociones equivocadas, que causan un Defecto en el Sistema o Código.
+    \item Defecto  - \textit{Defect}:
+        \\Es una caracterítica que se obtiene a nivel de Diseño, cuando una funcionalidad no hace lo que tiene que realmente hacer. Según la IEEE CSD o \textit{Center for Secure Design} \cite{ieeecsd2}, un defecto puede ser subdividido en 2 partes: falla o \textbf{flaw} y \textbf{bug}, donde la primera tiene que ver con un error de \textbf{alto nivel}, mientras que un bug es un problema de implementación en el Software. Una falla es menos notoria que un bug, dado que ésta es de caracter abstracto, a nivel de diseño del Software.
+    \item Falla - \textit{Fail}:
+        \\Es un estado en que el Software Implementado no funciona como debería de ser.
+    \item Vulnerabilidades - \textit{Vulnerability}:
+        \\Es una debilidad inherente del sistema que permite a un atacante poder reducir el nivel de confianza de la información de un sistema. Una vulnerabilidad convina 3 elementos: un \textbf{defecto} en el sistema, un \textbf{atacante} tratando de acceder a ese defecto y la \textbf{capacidad} que tiene el atacante para llevarlo a cabo. Particularmente las vulnerabilidades más críticas son documentadas en la \textit{Common Vulnerabilities and Exposures} (CVE) \cite{cve}.
+    \item Superficie de Ataque - \textit{Attack Surface}:
+        \\Es el conjunto de todas las posibles vulnerabilidades que un sistema puede tener, en un cierto momento, para una cierta versión del sistema, etc.
+    \item Amenaza - \textit{Threat}
+        \\Es una acción/evento que se aprovecha de las vulnerabilidades del sistema, debilidades, para causar un daño, y que dependiendo del recurso al que afecte el daño puede o no ser reparable.
+    \item Ataque - \textit{Attack}
+        \\Es el éxito de la amenaza en el aprovechamiento de la vulnerabilidad (explotación de ésta), de tal forma que genera una acción negativa en el sistema y favorable para el atacante.
+    \item \textit{Exploit}:
+        \\Usar una pieza de software para poder llevar a cabo un ataque sobre un objetivo, intentando \textbf{explotar} la vulnerabilidad de éste. Este tipo de acción permite en consecuencia obtener control en el sistema computacional, en donde la vulnerabilidad permitió su acceso.
+    \item Ingeniería Social - \textit{Social Engineering}
+        \\El acto de manipular a las personas de manera que realicen acciones o divulguen información confidencial. El termino aplica al acto de engañar con el propósito de juntar información, realizar un fraude, u obtener acceso a un sistema computacional. La definición anterior encontrada en Wikipedia es extendida por el autor del libro ``The Social Engineer's Playbook'' \cite{socEngineeering}, donde agrega que además la Ingeniería Social involucra el hecho de manipular a una persona en realizar acciones que finalmente no son para beneficiar a la víctima. Un ataque de éste tipo también puede llegar a ser realizado tanto \textbf{cara a cara}, como de forma indirecta. Pero el autor del libro indica que siempre hay un \textbf{contacto} previo con la víctima.
+    \item Confidencialidad - \textit{Confidentiality} 
+        \\Característica o propiedad que debe mantener un sistema para que la información privilegiada de alguna entidad que depende de tal sistema, no sea develada a nadie más que al que le pertenece la información.
+    \item Integridad - \textit{Integrity}
+        \\Característica o propiedad que asegura que la información no será modificada/alterada nada más que por la entidad a quién le pertenece y con el previo consentimiento de éste.
+    \item Disponibilidad - \textit{Availability}
+        \\Característica o propiedad que permite que la información esté disponible para quién lo necesite, en el momento que sea. La imposibilidad de obtener data en un cierto instante de tiempo, conlleva a la perdida de esta propiedad.
+    \item \textit{Phishing}
+        \\Técnica de Ingeniería Social. Mediante el uso de correo elentrónico, links (url's), acortamiento de urls y otras herramientas, se busca que una victima visite un sitio o aprete un link de manera que se de la \textbf{autorización explicita} del usuario para descargar código malicioso o enviar datos a un servidor malicioso. El objetivo de esta técnica es poder obtener información valiosa de la victima o relizar algún daño en el cliente web.
+    \item \textit{Malware}
+        \\Software creado para realizar acciones maliciosas en la data o sistema de un usuario. Puede ser instalado tanto de forma discreta como indiscreta, siendo la segunda opción causada a través de un ataque previo a cierta vulnerabilidad que permitió la instalación del malware, sin el consentimiento del usuario privilegiado del sistema.
+    \item \textit{Man-in-the-Middle}
+        \\Ataque que causa una pérdida en la Confidencialidad de la información que es revelada. La causa de este ataque puede ser tanto:
+            \begin{itemize}
+                \item Por técnicas de Ingeniería Social, entregano un certificado malicioso que el usuario acepta con o sin intención.
+                \item A través de vulnerabilidades del sistema que debieron ser explotadas antes para causar el ataque MiTM.
+            \end{itemize}
+    %\item \textit{Penetration Testing}
+    %\item \textit{Fuzzing}
+\end{itemize}
+
+
+\section{Web Browser}
+\label{chap2:Browser}
+
+    \subsection{Client/Server Architecture}
+    \label{chap2:ArqCS}
+    La web emplea lo que se conoce como una Arquitectura Cliente-Servidor, donde la comunicación entre ambas entidades se basa mediante mensajes de \textit{request-response} o solicitud-respuesta. Con el tiempo la forma en que se comunican estos programas a cambiado, desde iniciar solicitudes de forma secuencial e independiente, hasta solicitar asíncronamente varias peticiones. La evolución que ha tenido el cliente web ha permitido una mejor experiencia para el usuario, pero que conlleva ciertos riesgos que es necesario que el que usa el Browser sea consciente. De la misma manera que podemos afectar a un servidor a través de las solicitudes, las respuestas que el servidor envía al cliente pueden tener consecuencias graves \cite{alcorn2014browser}.
+
+    \subsection{HTTP: Hypertext Transfer Protocol}
+    \label{chap2:HTTP}
+    El Protocolo de la capa de Aplicación conocido como HTTP fue creado en los años 90 por el \textbf{World Wide Web Consortium} y la \textbf{Internet Engineering Task Force}, define una sintaxis y semántica que utilizarían los software basados en una arquitectura Web para comunicarse. El protocolo sigue un esquema de pregunta-respuesta o \textit{request-response}, donde un cliente solicita un recurso que el servidor posee, y el servidor entrega una respuesta de acuerdo al recurso solicitado. La forma en que se localiza un recurso es mediante la dirección URL o \textit{Uniform Resource Locator}
+
+        \subsubsection{HTTP Headers}
+        \label{chap2:headers}
+        HTTP es la implementación de la capa de aplicacón del modelo OSI que sigue todo dispositivo que desea conectarse a la Internet. Los headers o cabeceras que utiliza este protocolo permiten configurar la comunicación entre un \textit{Web Server} y un cliente web, en este caso con el Browser. Estos headers indican \textbf{dónde} debe ir el mensaje y \textbf{cómo} deben ser manejados los contenidos del mensaje. En cada petición o \textit{request} del Navegador, éste debe especificarlos para que el servidor pueda enteder las peticiones; de la misma manera, el servidor enviará cabeceras que el cliente también debe entender. Algunos \textit{headers} son necesarios y hasta obligatorios, para algunos servidores, y en otros da lo mismo como vayan.
+
+            \begin{itemize}
+                \item Content Security Policy: Es un mecanismo de defensa crea exclusivamente para la defensa de ataque de tipo XSS o \textit{Cross-Site Scripting}. La misión de éste es definir bien la línea entre intrucciones y contenido, donde la primera se refiere a código que se debe ejecutar. Para que sea posible utilizar este mecanismo es necesario agregar al header del servidor, para la \textit{request} del cliente, el header Content-Security-Policy o X-Content-Security-Policy, donde se indica la localización de donde los scripts pueden ser obtenidos o \textit{loaded} y además pone restricciones a estos mismos scripts.
+
+                \item Secure Cookie Flag: El propósito de este header es de instruir al Browser de nunca mandar una \textit{cookie} sobre un canal no seguro, solo debe ser realizado por HTTPS. Esta medida permite asegurar que una cookie tampoco será enviada por canales mixtos, donde al inicio de la comunicación HTTPS y luego vuelve a HTTP.
+
+                \item HttpOnly Cookie Flag: Una opción para las \textit{cookies} que permite inhabilitar el acceso al contenido de una cookie por medio de scripts. Esta opción originalmente fue pensada para evitar ataques XSS.
+
+                \item X-Content-Type-Options: Un servidor que manda la directiva nosniff para este header, obligará al Browser a renderizar la página así como lo dice el header content-type. La idea de este header es poder limitar la ejecución del tipo objeto que pide el browser.
+
+                \item Strict-Transport-Security: Obliga al navegador a que la comunicación con el servidor sea realizada por un tunel válido HTTPS, de manera que la comunicación sea completamente segura.
+
+                \item X-Frame-Options: este header previene que se realize un \textit{framing} de la página, es decir, esta opción evita que la página sea mostrada a través de un \(<\)iframe\(>\). Este control permite especialmente mitigar ataques de \textit{Clickjacking}, donde el usuario es engañado a través de lo que se muestra en la ventana del navegador.
+            \end{itemize}
+
+        \subsubsection{HTTP Communication Channels}
+        \label{chap2:comunHTTP}
+        Cuando se habla de HTTP usualmente ésto se relaciona con la comunicación que se lleva a cabo entre el cliente y servidor. Existen diversas formas para que ésto se lleve a cabo, las más conocidas son:
+        \begin{enumerate}
+            \item postMessage
+
+            \item XHR: XMLHttpRequest
+
+            \item WebSockets: Es una tecnología nativa del Navegador que permite abrir un canal de comunicación interactivo, responsivo y \textit{full-duplex} entre el cliente y el servidor. Éste comportamiento permite tener \textit{event-driven actions} rigurosas sin necesidad explícita de sondear el servidor en todo momento. Websockets intenta reemplazar las tecnologías \textit{Push} basada en AJAX.
+
+            \item WebRTC: O mejor conocido como \textit{Web Real-Time Communication}, es una API basada en la especificcación de la W3C, que utiliza las capacidades de Javascript y HTML5 (sin la utilización de plugins externos o internos) para transmitir audio, video y compartir archivos por medio de P2P. Ésta herramienta permite a los browsers comunicarse entre ellos a muy baja latencia y entrega un gran \textit{bandwidth} para poder realizar comunicaciones media en tiempo real. Hasta el momento Google Chrome/Chromium y Firefox han implementado esta tecnología, con el objetivo de: mejorar la experiencia de usuario al no necesitar plugins para ser usada, y entregar seguridad dado que impone el uso de encriptación en los datos.
+        \end{enumerate}
+
+    \subsection{SSL/TLS: Encriptación in the Transport Layer}
+    Si bien existe una medida de seguridad en los headers que se implementa en la capa de Aplicación por medio de HTTP, ésto no impide que otros puedan ver qué contienen los paquetes. La confidencialidad, autenticidad y el no repudio de lo que se envía, es un aspecto relevante cuando se está trabajando con sistemas con información crítica y confidencial. SSL (Secure Socket Layer) y TLS (Transport Layer Security) tienen el objetivo de proveer un canal confiable y privado de todo lo que se envía entre dos aplicaciones que se comunican, es decir, una seguridad \textit{end-to-end}. TSL es el resultado de la estandarización de SSL por la Internet Engineering Task Force (IETF). SSL/TLS trabaja debajo del protocolo HTTP usando certificados de clave pública que permiten:
+    \begin{itemize}
+        \item Resolver parcialmente el problema de la autenticación de un usuario, al establecer un canal seguro y encriptado mediante el uso de certificados digitales.
+        \item Identificar que la información enviada por los dos \textit{endpoints} sea solo de ellos dos, agregando una firma al final del paquete usando la clave privada de la entidad que envía.
+        \item Asegurar que todo lo que se envía sea visto sólo por las entidades que crean el canal de comunicación, a través de la codificación de los paquetes con las claves públicas de las entidades y su posterior decodicación con las respectivas claves privadas de cada uno.
+    \end{itemize}
+
+    El proceso que permite el inicio de una comunicación mediante SSL/TLS es:
+    \begin{enumerate}
+        \item Un usuario desea conectarse por el Browser a un Web Server.
+        \item Se inicia el proceso de \textit{Handshake} entre el Browser y Servidor. Éstos dos se ponen de acuerdo en cómo se encriptará la comunicación (parámetros e información de los certificados) e intercambian una llave asimétrica.
+        \item El Navegador chequea la validez del certificado, ejemplo: revisa si está en una black list o está expirado o fue creado por una CA \textit{Certificate Authority} confiable.
+        \item Si el servidor requiere un certificado por parte del cliente, el Browser le enviará el suyo. Esto permitirá tener una autenticación mutua entre las partes.
+        \item El Web Browser y el Servidor usan las llaves públicas del otro para poder acordar una clave simétrica, que es aquella que permitirá encriptar los mensajes. Sólo estas dos entidades conocerán tal clave.
+        \item El proceso de \textit{handshake} termina y todo lo posterior se realiza encriptando los paquetes con la llave simétrica acordada por las partes.
+    \end{enumerate}
+
+    Para que tanto SSL y TLS provean una conección segura, todos los componentes involucrados: cliente, servidor llaves y aplicación web deben ser seguros.
+
+
+    \subsection{SOP: Same Origin Policy} %listo
+    \label{chap2:SOP}
+
+    Es un principio de seguridad implementado (hoy en día) por cada browser existente, su principal objetivo es restringuir las formas de comunicación entre una ventana y un servidor web. \textbf{Same Origin Policy} o \textbf{SOP} es un acuerdo entre varios manufacturadores de navegadores web cómo Microsoft, Apple, Google y Mozilla (entre los más importantes), en donde se definió una estandarización de cómo limitar las funcionalidades del código de scripting ejecutado en el browser del usuario. 
+
+    Este importante concepto nace a partir del Modelo de Seguridad detrás de una Aplicación Web, al mismo tiempo que es el mecanismo más básico que el Browser tiene para protegerse de las amenazas que aparecen en el día a día, haciendo un poco más complicado el trabajo de crear un \textit{exploit}. \textbf{SOP} define lo que es un \textbf{Origen}, compuesto por el \textbf{esquema}, el \textbf{host/dominio} y \textbf{puerto} de la URL. Esta política permite que un Web Browser aisle los distintos recursos obtenidos por las páginas web y que solo permita la ejecución de \textit{Scripts} que pertenezcan a un mismo \textbf{Origen}. Inicialmente fue definido solo para recursos externos, pero fue extendido para incluir otros tipos de orígenes, esto incluye el acceso local a los archivos con el \textit{scheme} \textbf{file://} o recursos relacionados al Browser con \textbf{chrome://}.
+
+    \textbf{SOP} puede distinguir entre la información que envía y recibe el Web Browser, y solo se aplicará la política a los elementos externos que se soliciten dentro de una página web (recepción de la información). Esta imposibilidad de recibir información de un \textbf{Origen} diferente al del recurso actual, permite disminuir la superficie de ataque (\textit{Attack Surface}) y la posibilidad de explotar alguna vulnerabilidad en el sistema donde reside el Browser. Sin embargo, \textbf{SOP} no pone ninguna restricción sobre la información que el usuario puede enviar hacia otros. Sin \textbf{SOP} cualquier sitio podría accesar a la información confidencial de un usuario o de cualquier otro sitio. Por tanto es sencillo entender la razón de la existencia de \textbf{SOP}, se desea proteger la información del usuario, sus cookies, token de autenticación, etc. de las amenazas existentes en la Internet.
+
+
+    %referencia de chrome Zalewsk08
+    En \cite{Zalewsk08} menciona que no existe una sola forma de \textbf{SOP}, si no que es una serie de mecanismos que superficialmente que se parecen, pero al mismo tiempo poseen diferencias:
+
+    \begin{itemize}
+        \item \textbf{SOP} para acceso al \textbf{Document Object Model}: se dará permiso de modificar el \textbf{DOM} y sus propiedades solamente aquellos scripts que tienen el mismo dominio, puerto (para todos los browsers excepto Internet Explorer) y protocolo. Visto de otro modo, el mecanismo entrega una especie de Sandboxing para el contenido potencialmente peligroso y no confiable. Sin embargo éste no es suficiente, pues posee varias desventajas: el dominio es posible de cambiar a la conveniencia del atacante, limita las acciones a los desarrolladores lo que se traduce en que éstos tengan que buscar bugs que permitan liberarse de estas restricciones lo que incita a atacantes a aprovecharse de ésto.
+        \item \textbf{SOP} para el objeto XmlHttpPRequest: para diferentes tipos de peticiones (GET, POST y otros) existen condiciones y suposiciones que hacen que se tome o no en cuenta el \textit{request} del cliente, además del uso de una \textit{whitelist} de las formas en que el header de la petición puede salir del browser.
+        \item \textbf{SOP} para \textit{cookies}: restringuiendo el uso de acuerdo su dominio, \textit{path}, tiempo de uso, modificando o eliminado las cookies, e incluso protegiendo las cookies usando el \textit{keyword: secure}. Sin embargo, desde su implementación las cookies han generado bastante problemas de seguridad.
+        \item Y otros como: {SOP} para Flash, donde usa políticas para realizar peticiones fuera del dominio através de un archivo \textbf{crossdomain.xml}, \textbf{SOP} para Java y \textbf{SOP} para Silverlight, parecido al de Flash solo qe utiliza otros elementos.
+    \end{itemize}
+
+        
+   Tanto para los atacantes como desarrolladores de Software, SOP puede llegar a ser bastante molesto. Para el primero, la respuesta es obvia, pero para el segundo está el problema de ¿cómo poder aislar los componentes no confiables o parcialmente confiables, mientras que al mismo tiempo se pueda tener una comunicación entre ellos de forma segura? Ejemplo de esto son los Mashup \cite{barth2009securing}, que permiten juntar contenido de terceros en una misma página por medio de frames, etc. 
+        
+    Existen excepciones que permiten evitar el uso de SOP, pero como es de esperar esta vía puede ser mal usada por los atacantes en contra del usuario y de la Aplicación Web. Dentro de las excepciones están los elementos en HTML \(<\)script\(>\), \(<\)img\(>\), \(<\)iframe\(>\) y otros, que si bien permiten la comunicación entre diferentes orígenes, un mal uso de este puede causar grandes estragos, desde la eliminación de registros en una base de datos hasta la propagación de un gusano o virus.
+        
+    Queda decir que si bien SOP entrega una capa de seguridad al usuario y a la Aplicación Web, contra cierto tipo de ataques (muchas veces del tipo de ataques de principiantes), esto no es suficiente. Es responsabilidad del desarrollador de Software poseer las herramientas necesarias para asegurar la confidencialidad e integridad del sistema a través de otros métodos de seguridad.
+    
+
+    %Ver libro de Browser hacker handbook
+
+    \subsection{Markup Languages}
+    \label{chap2:markup}
+        Un lenguaje de marcado sigue tradicionalmente un \textit{Standard Generalized Markup Language}, de manera que entrega una semántica apropiada para representar o mostrar contenido, placeholders de aplicaciones y datos. Cada página mostrada por el navegador, sigue las instrucciones que el lenguaje de marcado le da al browser para mostrar el contenido. HTML y XML son los más conocidos en el mercado. Ambos lenguajes tienen sus especificaciones en la W3C o \textit{World Wide Web Consortium}.
+
+        \subsubsection{HTML: HyperText Markup Language}
+        \label{chap2:HTML}
+        HTML \cite{htmlSpec}, en especial la actual versión HTML5, es conocido por ser un \textit{Simple Markup Language} o lenguage de marcado simple, usado principalmente para crear documentos de hypertextos que son posibles de portar desde una plataforma a otra, sin problemas de compatibilidad. Un documento HTML consiste de un árbol de elementos y texto, cada uno de esos elementos es denotado por un tag inicial y uno final; estos tags pueden ir anidados y la idea es no se superponen entre ellos. Un HTML User Agent o Browser consume el HTML y lo parsea para crear un árbol DOM, que es la representación en memoria del documento HTML.
+        Una característica importante de este lenguaje de marcado es su flexibilidad ante los errores, esto es que en alguna ocasiones el programador perfectamente podría sobrarle un signo y HTML no le daría mayor importancia mientras no afecte a la estructura global de la página. Normalmente esta característica es aprovechada por los atacantes para insertar nuevos elementos html que ejecuten scripts que afectarían al navegador.
+
+
+        \subsubsection{XML: eXtensible Markup Language}
+        \label{chap2:XML}
+        Este lenguaje de marcado tiene una estrecha relación con HTML, pero a diferencia de este último tiene una sintáxis y semántica más rígida ya que sigue al pie de la letra un lenguaje libre de contexto. Este tipo de lenguaje es ideal para el transporte de data entre \textit{web Services} o interacciones \textbf{RPC}, dado que no hay forma de como malinterpretar la data.
+
+
+    \subsection{CSS: Cascading Style Sheets}
+    \label{chap2:css}
+    Es un lenguaje usado junto a HTML o XML para definir la capa de presentación de las páginas web que el navegar renderiza al usuario. La W3C se encarga de la especificación de las hojas de estilos para que los browser sean capaces de interpretar bajo estándares y aseguren ciertos niveles de calidad. Una hoja de estilo se compone de una lista de reglas. Cada regla o conjunto de reglas consiste en uno o más selectores y un bloque de declaración, más los estilos a aplicar para los elementos del documento que cumplan con el selector que les precede. 
+
+
+    \subsection{DOM: Document Object Model}
+    \label{chap2:DOM}
+    Es una \textit{API} independiente del lenguage y multiplataforma para HTML válido y bien formado, que define la estructura lógica de un documento que permite ser accedido y manipulado. DOM es una especificación que permite a programas Javascript modificar la estructura del contenido de una página dinamicamente. Esto permite que una página pueda cambiar sin la necesidad de realizar nuevas peticiones al servidor y sin la interacción del usuario. Posteriormente la \textit{W3C} \cite{w3c} formó el \textit{DOM Working Group} y con ello se creó la especificación a través de la colaboración de muchas empresas y expertos. La arquitectura de esta \textit{API} se presenta en la Figura \ref{fig:DOM}, donde el \textit{Core Module} es donde están las interfaces que deben ser implementadas por todas las implementaciones conformes de DOM. Una implementación de DOM puede ser construida por uno o más módulos dependiendo del host, ejemplo de esto: la implementación de DOM en un servidor, donde no es necesaria la implementación de los módulos que manejen los triggers de eventos del mouse.
+            
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.65\textwidth]{figures/dom-architecture.jpg}
+        \caption{Arquitectura de DOM \cite{w3c}}
+        \label{fig:DOM}
+    \end{figure}
+            
+    La interfaz de \textit{DOM} fue definida por el \textbf{OMG IDL} y fue construida para ser usada en una gran variedad de ambientes y aplicaciones. El documento parseado por DOM se transforma en un gran objeto, tal modelo captura la estructura del documento y el comportamiento de éste, además de otros objetos de lo que puede estar compuesto y las relaciones entre ellos. Cada uno de los nodos representa un elemento parseado del documento, el cuál posee una cierta funcionalidad e identidad. La estructura de árbol del DOM construido puede llegar a ser gigantezca, y almacena más de un árbol por cada documento que parsea. 
+            
+    \subsection{Javascript, VBScript y others}
+    \label{chap2:JS}
+    Ambos son lenguajes de scripting orientados a objetos. Javascript fue desarrollado por Netscape mientras que VBScript fue desarrollado por Microsft para Internet Explorer, los dos siguen el estandar del lenguage de scripting \textbf{ECMAScript}. Dado que VBScript no era usado por muchos y no tenía soporte para otros navegadores más que Internet Explorer, Microsoft decidió abandonarlo.
+
+    Muchos piensan que JavaScript es un lenguage interpretado, pero es más que eso. Javascript es un lenguage de \textbf{scripting dinámico} (por tanto no tipificado) que soporta la construcción de objetos basados en \textbf{prototipos}. Esto quiere decir que a diferencia de un lenguage de programación orientado a objetos como Java, un lenguage orientado a prototipos no hace la distinción entre clases y objetos (clase instanciada), son simplemente objetos. Y cómo tal al ser construido con sus propidades iniciales, es posible poder agregar o remover propiedades y métodos de forma dinámica (durante el runtime) tanto a un objeto como a la clase.
+            
+    Javascript puede funcionar tanto como un lenguage de programación procedural o como uno orientado a objetos. Firefox usa una implementación en C de Javascript llamada \textit{Spider Monkey}, Google Chrome/Chromium tiene un motor de JavaScript llamado \textit{V8} e Internet Explore no usa realmente JavaScript si no que \textit{JScript} (hace lo mismo que las otras implementaciones solo que difiere en el sistema operativo que utiliza) que en este caso se llama \textit{Chakra}.
+            
+    Si bien es posible comprender que JavaScript posee increíbles posibilidades para la creación de \textit{RIA} (Rich Internet Applications), en \cite{barth2009attacks} se muestra que puede llegar a ser un fracaso si es que no se toman en cuenta ciertas vulnerabilidades inherentes al lenguage. Estas vulnerabilidades que pueden llegar a ser criticas, a menudo permiten a un comunicante comprometer completamente a la otra parte. La misma naturaleza de JavaScript que permite la modificación en runtime de los objetos, puede llegar a ser aprovechada de esta situación; en la cita toma por ejemplo la comunicación entre los elementos de un \textit{Mashup}.
+
+
+    \subsection{Geolocalization}
+    Cada Browser posee una API que permite obtener la data de la localización del host donde el browser está alojado. Ésta es obtenida ya sea del GPS, si es un dispositivo móvil, como de la triangulación de la señal del celular, localización de IP del movil o \textit{access point}.
+
+
+    \subsection{Speedy o SPDY Protocol}
+    \label{chap2:spdy}
+    Es un protocolo de red abierto desarrollado por Google en el 2009, para el transporte de contenido Web. A modo general utiliza técnicas de \textit{multiplexing}, compresión y prioritización, sin embargo depende bastante de las condiciones del sitio web y su despliegue en la red. SPDY manipula el tráfico en el protocolo HTTP para disminuir el tiempo de carga de las páginas web, al mismo tiempo que cuida la seguridad de los datos. Este protocolo modifica la forma en que las peticiones y respuestas HTTP son enviadas a la internet (por el cable); SPDY es considerado una especie de tunel. Sin embargo, cuando la versión 2 de HTTP esté completa SPDY será deprecada. Implementaciones de este protocolo se dan en: Google Chrome/Chromium, Internet Explorer, Firefox, Safari, Opera y Amazon Silk.
+
+    \subsection{WebWorkers}
+    \label{chap2:WWs}
+    Ésta tecnología permite la creación de \textit{threads} en el browser para separar las tareas de éste, dejando algunas en el \textit{background} para incrementar el rendimiento total de la carga de las páginas web. Existen 2 tipos: una que es compartida por todo aquello de un mismo \textbf{Origen} y otra que se comunica hacia atrás a la función que la creó. Esta API entrega al desarrollador más flexibilidad, pero que sin duda los atacantes también aprovechan bastante.
+
+    \subsection{CORS: Cross-Origin Resource Sharing}
+    \label{chap2:CORS}
+    Cómo lo define su nombre es un mecanismo (especificación) que permite al cliente realizar request entre sitios de diverso \textit{Origen}, ignorando el \textbf{SOP}. \textit{CORS} define una forma en que el Browser y el Servidor Web puedan interactuar para determinar si permitir o no el request a otro origen. Un Browser utiliza SOP para restringuir los request de la red y prevenir al cliente de una Aplicación Web ejecutar código que se encuentra en un origen distinto, además de limitar los request HTTP no seguros que podrían tratar de generar un daño. CORS extiende el modelo que el Browser maneja e incluye:
+        
+        \begin{itemize}
+            \item Un header en la respuesta/response del servidor solicitado llamado \textit{Access-Control-Allow-Origin}, donde se debe escribir el origen que tendrá acceso a los recursos solicitados al servidor. Si el valor de la respuesta del servidor coincide con el \textit{origen} de quién lo solicitó, se podrá realizar el uso del recurso en el navegador, de lo contrario se generará un error.
+
+            \item Otro header llamado \textit{Origin} pero esta vez en el request de la solicitud, para permitir al Servidor hacer cumplir las limitaciones en las peticiones de distinto origen.
+
+            \item En algunos casos un browser deberá agregar el header \textit{Access-Control-Allow-Methods}, ya que el servidor no responderá de vuelta si no es así. Esto permite limitar la superficie de ataque en el servidor.
+
+        \end{itemize}
+        Existen ciertos métodos en HTTP que necesitan realizar un \textit{pre-vuelo} antes de ser ejecutados, si la response del servidor es afirmativa luego se enviará el request original con el método que se debió confirmar su utilización. Para el caso de los métodos GET y POST, los más usados, este pre-vuelo no es necesario y se puede enviar el request inmediatamente.
+        
+        La gran diferencia de CORS con cualquier otro método de que permita hacer request hacia un origen distinto, es que el Browser por default no enviará ningún tipo de información que permita identificar al user. De esta manera se puede disminuir considerablemente las amenazas en la confidencialidad, pues el atacante no podrá hacerse pasar por un usuario del que no tiene información. Casi todos los navegadores web, a diferencia de Internet Explore \cite{bookWebAppSec}, realizan sus solicitudes a servidores de diverso origen por medio de la interfaz \textit{XmlHttpRequest}, en el caso de Internet Explorer esta se llama \textit{XDomainRequest}.
+
+
+    \subsection{Sandboxing}
+    \label{chap2:Sandboxing}
+    La idea es encapsular el área de mayor probabilidad de ataque en un espacio aislado, minimizando la superficie de ataque de un software. Sandboxing no es una técnica tan nueva, han existido sistemas que ya lo han incorporado. Ésta protección puede ser aplicada dependiendo del diseño del software, algunos ocupan Sandbox a nivel del sistema operativo como otros que ocupan al nivel del \textit{engine} de Javascript. En el caso especial del Browser, esta técnica es construida en el nivel más alto posible para un programa de usuario, lo que permite la separación de privilegios entregados por el sistema operativo al browser y los subprocesos que corren dentro de éste. El atacante que se enfrente a un browser que tenga este mecanismo de defensa, tendrá que realizar primero un \textit{bypass} encontrando una vulnerabilidad en el sandboxing del browser. Existen diferentes técnicas para Sandboxing, todo depende del diseño del Browser.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Reference Architecture (RA)}
+\label{chap2:ArqRef}
+%usar \cite{Avgeriou2003}
+
+Una arquitectura de Referencia, de acuerdo a la \textit{Open Security Architecture} o OSA\cite{openSecArch}, es considerado un elemento que describe un \textbf{estado de ser} y debe representar aceptadas buenas practicas. En \cite{Avgeriou2003} se explica que una RA es una arquitectura de software genérica y estandarizada, para un dominio particular e independiente de la plataforma o detalles de implementación. En ésta especifica la decomposición del sistema en subsistemas, las interacciones entre éstas partes y la distribución de funcionalidad entre ellas \cite{Bass2012}. Una RA es una herramienta que permite facilitar el entendimiento de sistemas complejos y su apropiada construcción a sistemas reales. Si bien una RA es usada principalmente para capturar los \textit{concerns} de los \textit{Stakeholders} al comienzo de un Desarrollo de Software, también puede ser usada para educar al realizar la unión de ideas y terminologías usadas por diversos sistemas que se asemejen. Para describir la Arquitectura de Referencia nos hemos basado en los trabajos \cite{Avgeriou2003,Hashizume2014Reference, Submitted2014}, usando patrones para la contrucción de la AR.
+
+Actualmente no hay un consenso de lo que una AR debe contener, \cite{Avgeriou2003} describe un ejemplo e indica como debería de ser ésta con los siguientes elementos:
+\begin{itemize}
+    \item Describir los Stakeholders que interactuan con el sistema y que poseen \textit{concerns} de éste.
+    \item Generar \textit{views} usando UML y teniendo en cuenta un proceso \textit{Rational Unified Process}: crear casos de uso, modelos de análisis y diseño, modelo de despliegue e implementación.
+    \item Patrones de Arquitectura.
+    \item Atributos de calidad deseables que el sistema debe garantizar. Es importante solo destacar aquellos realmente necesarios, dado que un sistema sobrecargado con ellos tampoco es conveniente.
+\end{itemize}
+
+La Arquitectura de Referencia debe ser en lo posible descrita de la forma más abstracta posible, pues su función guiar la construcción de arquitecturas concretas, sin tener en cuenta detalles de las tecnologías usadas.
+
+Las ventajas y usos que se obtienen al construir una RA son:
+\begin{itemize}
+    \item Comprender la estructura subyacente de un Web Browser y las interacciones que tendrá con otros sistemas.
+    \item Proveer una base tecnológica modular y flexible. Al tener los subsistemas compartimentalizados es posible quitar y sacar piezas, que poseen interfaces similares, y de esa manera reusar lo otro sin tener que construir un sistema nuevo.
+    \item Entrega una base para el desarrollo de otros Navegadores Web, sin explicar detalles de implementación.
+\end{itemize}
+
+En este trabajo el enfoque estará en el primer punto, donde se quiere entender las interacciones entre un desarrollo de Software y la utilización de las funcionalidades del Navegador. Dado que parte de la investigación es obtener Patrones de Mal Uso o Uso Indebido del Navegador Web, es primordial concebir una Arquitectura de Referencia que permita encontrar donde es posible aplicar Patrones de Seguridad para poder mitigar los malos usos del Browser \cite{Submitted2014}. A continuación se presenta la AR obtenida a partir de los Browsers más usados actualmente \cite{statBrow}: Google Chrome/Chromium, Internet Explorer y Firefox.
+
+\section{Secure Software Development and Secure Software Design}
+\label{chap2:SSD}
+
+La filosofía detrás de \textit{Secure Software Developmet} es que detrás de cada etapa de desarrollo del software, se tengan en cuenta los prinicipios de Seguridad: Confidencialidad, Integridad, Disponibilidad y Auditoría. Para cumplir este cometido es que se deben llegar a políticas y reglas que aseguren la Seguridad como una propiedad sistémica.
+
+Varias comunidades tienen diferentes enfoques y técnicas de cómo asegurar la Seguridad en los sistemas, muchas pueden incluso tener similitudes y hasta trabajar juntas. En este trabajo, el enfoque tomado es aquél que busca entregar la propiedad de seguridad a través del entendimiento de un sistema a un alto nivel, identificando las amenazas durante la elicitación de requerimientos, de manera que se pueda extraer las posibles amenazas que podrían existir y utilizando elementos de diseño para hacer cumplir los principios de seguridad necesarios por el sistema; este enfoque es el que se dedica la comunidad de \textit{Secure Software Design}. 
+
+Fernandez \cite{fernandez2013security} sostiene que para construir un sistema seguro es necesario realizarlo de manera sistemática de tal manera que la seguridad sea parte del integral de cada una de las etapas del Desarrollo de Software - de inicio a fin. El enfoque que propone es ingenieril y por tanto es aplicable incluso para sistemas \textit{legacy}, donde es posible hacer ingeniería inversa para comprobar si existen o no los requerimiento de seguridad implementados, de manera que permite generar un estudio con la intención de comparar y mejorar nuevos sistemas. En su libro \cite{fernandez2013security} presenta una completa metodología para construir sistemas seguros a partir del Diseño Orientado a Objetos, UML y patrones, a los cuales nombra como \textbf{Security Patterns}.
+
+Como parte de la metodología propuesta, se plantea que para diseñar primero se deben entender las posibles amenazas a las que está expuesto el sistema. La identificación de Amenazas \cite{braz2008eliciting,fernandez2006defining} es la primera tarea que presenta la metodología, que considera las actividades en cada caso de uso del sistema.
+
+
+\section{Patterns}
+\label{chap2:Patt}
+Los Patrones encapsulan soluciones recurrentes a problemas y definen una forma de expresar los requerimientos y soluciones de una forma concisa, al mismo tiempo que proveen de un vocabulario común entre los diseñadores \cite{buschman1996system}. Un patrón encarna el conocimiento y experiencia de desarrolladores de software que puede ser reusado posteriormente en nuevas aplicaciones \cite{fernandez2004methodology, fernandez2013security}. Los Patrones expresan las relaciones entre un contexto, un problema y una solución. Para un contexto dado, el patrón puede ser adaptado para encajar en diversas situaciones. La construcción de Patrones de Seguridad parte de la premisa anterior, éste permite construir sistemas seguros a través del uso de Patrones adaptados a las necesidades del sistema y preocupaciones de los \textit{Stakeholders}. Por otra parte, una Arquitectura puede ser descrita a través de Patrones, permitiendo que haya un mejor entendimiento al momento de proveer con guías de diseño y análisis a desarrolladores.
+
+Los patrones describen diseños recurrentes en un mediano nivel de abstraction y es poco probable que existan solos, es decir, existen en conjunto a otros patrones. Un patrón puede proveer una solución usando diagramas en UML, de manera que describen de forma precisa al sistema.
+
+La Arquitectura de Referencia a confeccionar será realizada por medio de patrones y éstos serán descritos con el template creado por \cite{buschman1996system}, llamado POSA, que contiene las siguientes secciones para describir un patrón: \textit{Intent}, Contexto, Problema, Solución, Implementación, Usos comúnes, Consecuencias y Patrones relacionados.
+
+
+
+
+\section{Security Patterns}
+\label{chap2:SecPatt}
+Los Patrones de Seguridad son aquellos que encarnan buenos principios de diseño que tienen en cuenta ciertos principios de seguridad, y que al ser aplicados en una metodología para el desarrollo de sistemas, es posible asegurar que el sistema aplique esos principios y en consecuencia generar un sistema seguro \cite{fernandez2004methodology, fernandez2013security}. Estos patrones describen las maneras de detener o mitigar una posible amenaza de seguridad, especificando una solución a través de mecanismos de seguridad, para el contexto dado. Las soluciones propuestas deben resolver las fuerzas o \textit{forces} indicadas por el patrón. Un uso importante de estos patrones es la ayuda que aportan a desarrolladores que no son expertos en seguridad; éstos permiten ayudarlos a implementar mecanismos que implementen los principios de seguridad necesarios.
+
+\section{Patrones de Mal Uso}
+Para diseñar sistemas seguros, se es necesario identificar las posibles amenazas que un sistema puede sufrir. Papers como \cite{fernandez2006defining, fernandez2007attack, braz2008elicitin, fernandez2013security} describen el desarrollo de una metodología completa para encontrar amenazas, a través del análisis de actividaddes de los casos de uso del sistema buscando como podría un atacante interno o externo socavar las bases de esas actividades. Es importante no confundir \textit{Attack Patterns} con \textit{Misuse Pattern}, pués claramente en \cite{ModMisusePatt, fernandez2013security} dejan explícito que un \textit{Attack Patttern} es una acción que lleva a un mal uso o \textit{misuse}, o acciones \textbf{específicas} que toman ventaja de las vulnerabilidades de un sistema, como por ejemplo un \textit{buffer overflow}. A partir de los trabajos \cite{fernandez2007attack, yoshioka2006development, yoshioka2007integration}  se hace la unión de los conceptos de \textit{Attack Patttern} para dar forma a la definición de \textit{Misuse Pattern} \cite{ModMisusePatt, pelaez2009misuse, fernandez2010worm, hashizume2011misuse, munoz2011misuse, fernandez2012misuse, alkazimi2014, encinamisuse}:
+\begin{center}
+    Un patrón de mal uso o \textit{Misuse Pattern} describe, desde el punto de vista del atacante, cómo un tipo de ataque es realizado (qué unidades usa y cómo), analiza las maneras de detener el ataque através de la enumeración de posibles Patrones de Seguridad que pueden ser aplicados, y describe cómo rastrear un ataque una vez que ha ocurrido por medio de una recolección y observación apropiada de datos forenses.
+\end{center}
+
+Sin embargo, cuando un sistema ya está diseño y construido, como es el caso del Web Browser, lo que va a importar es saber \textbf{cómo} los componentes del sistema, pueden ser usados por el atacante para alcanzar sus objetivos. Un \textit{Misuse Pattern} o \textbf{Patrón de Mal Uso} describe, desde el punto de vista del atacante, cómo un tipo de ataque es realizado, indicando \textbf{qué} componentes usa y \textbf{cómo}. Además analiza las formas de detener el ataque a través de un listado de posibles \textit{Security Patterns} o \textbf{Patrones de Seguridad} que pueden ser aplicados para esa situación, y describe cómo poder seguir el rastro de un ataque una vez que ha sido realizado con éxito en el sistema, a través de data forense. Además describe un contexto en dónde puede ocurrir el ataque.
+
+Un catálogo de \textit{Misuse Patterns} podría ser de gran valor en el Desarrollo de Sistemas que interactúan con el Navegador, pués provee a desarrolladores un medio para evaluar los diseños de sus sistemas, al analizar las posibles amenazas del Browser que pusieran afectar al software que está siendo construído.

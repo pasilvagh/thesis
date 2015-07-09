@@ -1,0 +1,49 @@
+\chapter{Patrones de Mal Uso}
+\label{chap5:MisusePatt}
+En este capítulo se tiene como objetivos: obtener las amenazas que afectan al Web Browser y obtener Patrones de Mal Uso o Uso Indebido que las reflejen. Se realizará un análisis de amenazas basada en la metodología \cite{braz2008eliciting}, que busca en base a las actividades de los casos de uso los posibles males usos que podrían realizar los atancates.
+
+
+\section{Identificando Amenazas}
+\label{chap5:IdenThreat}
+
+
+\section{Template de Patrones de Mal Uso}
+\label{chap5:TemplateMP}
+Esta sección describe cada parte del template a usar para un Patron de Mal uso o Uso Indebido.
+
+\subsection*{Nombre}
+El nombre del patrón debe corresponder al nombre genérico dado al tipo específico de ataque en los repositorios estandares de ataques, como por el usado por el CERT \cite{cve}.
+
+\subsection*{Intent o descripción básica}
+Una descripción corta del propósito del patrón (qué problema resuelve para el atacante).
+
+\subsection*{Contexto}
+Describe el entorno genérico incluyendo las condiciones bajo a las cuales el ataque puede ocurrir. Esto puede incluir defensas mínimas presentes en el sistema, así como también vulnerabilidades típicas del sistema. El contexto puede ser especificado usando Diagramas de \textit{Deployment} de las partes relevantes del sistema así como también Diagaramas de Secuencia o de Colaboración que explayen el uso normal del sistema. Un diagrama de clases podría mostrar la estructura relevante del sistema. Se especifican además precondiciones para que el ataque ocurra.
+
+\subsection*{Problema}
+Desde la mirada del atacante, el problema es encontrar \textbf{cómo} atacar el sistema. Un problema adicional es cuando el sistema está protegido por mecanismos de defensa. Las \textbf{fuerzas o forces} indican qué factores pueden ser requeridos en orden de ejecutar el ataque y en cómo realizarlo; por ejemplo, qué vulnerabilidades pueden ser explotadas. Además, qué factores podrían evitar que el ataque se pueda llevar acabo o lo retrasen.
+
+\subsection*{Solución}
+Esta sección describe la solución que resuelve el problema del atacante, ej: cómo el ataque puede alcanzar sus objetivos y los resultados esperados de éste. Diagramas en UML muestran los componentes del sistema involucrados. Diagramas de Secuencia o Colaboración muestran el intercambio de mensajes necesarios para cumplir con el ataque. Diagramas de actividad pueden añadir más detalle.
+
+\subsection*{Componentes del sistema afectados (Dónde buscar evidencia)}
+Esta sección adicional al \textit{template} original de un Patrón de Seguridad \cite{fernandez2013security} es nueva, dado que tiene relación con el mal uso realizado. La solución debe representar todos los componentes que están involucrados en el ataque, pero no debe ser una extensa lista, solo los más importantes para prevenirlo o lo escencial para una examinación forense. Esto puede ser representado por un diagrama de clases, que puede ser un subset o un superset del diagrama del contexto.
+
+\subsection*{Usos comúnes}
+Incidentes específicos en donde el ataque ha ocurrido son preferidos, pero para vulnerabilidades nuevas, donde el ataque aún puede que aún no se haya realizado, un contexto específico dónde el ataque pueda llevarse acabo es suficiente.
+
+\subsection*{Consecuencias}
+Discute los beneficios y desventajas del patrón de mal uso o uso indebido desde el punto de vista del atacante. ¿Es acaso el esfuerzo y costo gastado comparable a los resultados obtenidos? Esta es una evaluación que debe ser realizada por el atacante al decidir realizar el ataque; Diseñadores deben evaluar el riesgo de sus activos usando algpún enfoque de análisis de riesgos. La enumeración incluye buenos y malos aspectos, que deben ser emparejados a las fuerzas o \textit{forces}
+
+
+\subsection*{Contramedidas y datos Forenses}
+Esta sección describe las medidas de seguridad necesarias para detener, mitigar, o rastrear este tipo de ataque. Esto implica la enumeración de los Patrones de Seguridad o \textit{Security Patterns} que son efectivos contra este ataque. Desde un punto de vista Forense, se describe qué información puede ser obtenida en cada etapa rastreando el ataque y lo que puede ser deducido de los datos con el fin de identificar el ataque en específico. Finalmente, podría indicar qué información adicional debe ser recolectada en los componentes o unidades incolucrados para poder mejorar el análisis forense.
+
+
+\subsection*{Patrones Similares}
+Discute otros patrones de mal uso o uso indebido con diferentes objetivos pero realizados de manera similar, o con objetivos similares pero realizados de otra manera.
+
+%\section{Escuchar Tráfico}
+
+
+%\section{Robo de Datos privados por medio de extensión mal configurada}
